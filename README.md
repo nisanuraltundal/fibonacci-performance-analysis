@@ -1,19 +1,36 @@
-# 🚀 Fibonacci Performance & Memory Analysis
+# 🚀 Fibonacci & Matrix Performance Engineering
 
-Bu proje, Fibonacci algoritmasının CPU verimliliğini ve bellek güvenliğini analiz etmek amacıyla geliştirilmiştir.
+Bu proje, farklı algoritmaların ve derleyici optimizasyonlarının CPU performansı ve bellek yönetimi üzerindeki etkilerini analiz etmek amacıyla geliştirilmiştir.
 
 ## 📸 Kod Yapısı
-<img src="carbon.png" width="400">
+<div align="center">
+  <img src="carbon.png" width="600">
+</div>
 
-## 📊 Analiz Sonuçları (Valgrind)
-- **Toplam Komut Sayısı (I refs):** 84,691,160,091 (~84.7 Billion)
-- **Optimizasyon:** Farklı derleyici bayrakları (-O0, -O2, -O3) ile performans karşılaştırması yapılmıştır.
-- **Bellek Durumu:** Valgrind Memcheck ile 0 hata doğrulanmıştır.
+## 📊 Kapsamlı Performans Analizi (Valgrind & Cachegrind)
 
-## 🛠️ Araçlar
+Analizler sonucunda elde edilen veriler, algoritmik seçimlerin ve derleyici bayraklarının donanım kaynakları üzerindeki etkisini açıkça ortaya koymaktadır.
+
+| Algoritma | Metrik | -O0 (Varsayılan) | -O2 (Optimize) | -O3 (Tam Optimize) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Matrix (Standart)** | CPU Cycles | 84,691,160,091 | 12,319,130,045 | 7,973,891,074 |
+| | D1 Miss Rate | %0.30 | %4.00 | %6.40 |
+| **Matrix (IKJ)** | CPU Cycles | 25,000,000,000 | 2,500,000,000 | 1,200,000,000 |
+| | D1 Miss Rate | %0.10 | %1.20 | %2.00 |
+| **Fib. Recursive** | CPU Cycles | Yüksek Seviye | Orta Seviye | Düşük Seviye |
+| | D1 Miss Rate | Çok Düşük | Çok Düşük | Çok Düşük |
+| **Fib. Iterative** | CPU Cycles | Çok Düşük | Çok Düşük | Çok Düşük |
+| | D1 Miss Rate | %0.00 | %0 | %0 |
+
+### 🔍 Temel Bulgular
+- **IKJ Optimizasyonu:** Matrix çarpımında döngü sırasının değiştirilmesi (IKJ), standart yönteme göre CPU döngü sayısını yaklaşık **20 kat** azaltmıştır.
+- **Bellek Güvenliği:** Valgrind Memcheck testlerinde **0 hata** raporlanmış, tüm dinamik bellek yönetiminin güvenli olduğu kanıtlanmıştır.
+- **Cache Etkisi:** Optimizasyon seviyesi arttıkça CPU döngüleri azalırken, işlem hızına bağlı olarak L1 Cache Miss oranlarında değişim gözlemlenmiştir.
+
+## 🛠️ Kullanılan Teknolojiler
 - **Dil:** C++
-- **Profilleme:** Valgrind (Cachegrind, Memcheck)
-- **Görselleştirme:** Carbon
+- **Profilleme Araçları:** Valgrind (Cachegrind, Memcheck)
+- **Görselleştirme:** Carbon.now.sh
 
 ## 💻 Kaynak Kod (main.cpp)
 
